@@ -13,9 +13,9 @@
 
 <!-- I could have done better the responsiveness, not the same on phone -->
 <div
-	class="absolute bottom-10 left-1/2 -translate-x-1/2 w-[90%] sm:w-[55%] sm:min-h-[60px] min-h-[100px] border border-[#342F2E] rounded-xl"
+	class="absolute overflow-hidden bottom-10 left-1/2 -translate-x-1/2 w-[90%] sm:w-[55%] sm:min-h-[60px] min-h-[100px] border border-[#342F2E] rounded-xl"
 >
-	<div class="relative flex items-center bg-red-500 w-full h-full text-white px-4">
+	<div class="relative flex items-center w-full min-h-[60px] bg-[#181412] text-white px-4">
 		<select bind:value={model} class="bg-transparent text-[#A8A29D]">
 			<option>Large 2</option>
 			<option>Medium</option>
