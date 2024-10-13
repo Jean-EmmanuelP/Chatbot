@@ -22,7 +22,9 @@
 			class="flex-grow bg-transparent outline-none text-white placeholder-[#A8A29D]"
 		/>
 
-		<button class="bg-orange-500/20 p-2 rounded-xl sm:translate-y-0 translate-y-6 sm:translate-x-0 translate-x-2.5">
+		<button
+			class="bg-orange-500/20 p-2 rounded-xl sm:translate-y-0 translate-y-6 sm:translate-x-0 translate-x-2.5"
+		>
 			<div>
 				<Send height={'20px'} width={'20px'} color={'#D35400' + '66'} />
 			</div>
