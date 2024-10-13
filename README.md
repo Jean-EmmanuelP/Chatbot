@@ -1,38 +1,30 @@
-# create-svelte
+# Mistral AI Chat Clone
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/main/packages/create-svelte).
+This is a tiny replica of the Mistral AI chat, built using Svelte and TailwindCSS.
 
-## Creating a project
+## Prerequisites (Backend Installation)
 
-If you're seeing this, you've probably already done this step. Congrats!
+1. Clone the backend repository: git clone git@github.com:Jean-EmmanuelP/backend_chatbot.git
+2. Set up a virtual environment: python -m venv venv
+(You might need to use `python3` for some systems)
 
-```bash
-# create a new project in the current directory
-npm create svelte@latest
+3. Activate the virtual environment:
+- On macOS:
+  ```
+  source venv/bin/activate
+  ```
+- On Windows:
+  ```
+  venv\Scripts\activate
+  ```
 
-# create a new project in my-app
-npm create svelte@latest my-app
-```
+4. Install the required packages: pip install mistralai flask python-dotenv flask-cors
+(Or use `pip3`)
 
-## Developing
+5. Create a `.env` file and add your Mistral API key:
+MISTRAL_API_KEY=your_api_key_here
+## Frontend Installation
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-## Building
-
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+1. Clone this repository.
+2. Install the dependencies and start the development server:
+npm i && npm run dev –open
