@@ -25,18 +25,22 @@
 		chatStore.update((messages) => [...messages, newMessage]);
 
 		query = '';
+		const textarea = document.querySelector('textarea');
+		if (textarea) {
+			textarea.style.height = 'auto';
+		}
 
 		setTimeout(() => {
 			const fakeResponse = 'Ceci est une réponse simulée.';
 
-				chatStore.update((messages) => {
-					return messages.map((msg) => {
-						if (msg.id === newMessage.id) {
-							return { ...msg, response: fakeResponse };
-						}
-						return msg;
-					});
+			chatStore.update((messages) => {
+				return messages.map((msg) => {
+					if (msg.id === newMessage.id) {
+						return { ...msg, response: fakeResponse };
+					}
+					return msg;
 				});
+			});
 		}, 1000);
 	}
 </script>
@@ -58,6 +62,12 @@
 			class="flex-grow my-auto bg-transparent outline-none text-white placeholder-[#A8A29D] resize-none flex items-center justify-center"
 			rows="1"
 			on:input={adjustTextareaHeight}
+			on:keydown={(e) => {
+				if (e.key === 'Enter' && !e.shiftKey) {
+					e.preventDefault();
+					sendMessage();
+				}
+			}}
 		/>
 
 		<button
