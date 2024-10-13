@@ -15,6 +15,8 @@
 	});
 </script>
 
+<!-- the width of the container for the messages is not good because in the mistral website,
+  the scroll is not supposed to be here -->
 <div class="h-full w-full">
 	{#if $chatStore.length === 0}
 		<enhanced:img
@@ -23,19 +25,12 @@
 			alt="mistral logo"
 		/>
 	{:else}
-		<div class="flex flex-col gap-4 mx-auto sm:px-[17.5vw] sm:w-full w-[90%] mt-[7%] max-h-[78vh] overflow-y-auto">
+		<div
+			class="flex flex-col gap-4 mx-auto sm:w-[55%] w-[90%] mt-[7%] max-h-[78vh] overflow-y-auto"
+		>
 			{#each messages as message}
 				<ChatDisplay {message} />
 			{/each}
 		</div>
-		<!-- <div class=" text-white">
-				<p><strong>Channel:</strong> {message.channel}</p>
-				<p><strong>Question:</strong> {message.question}</p>
-				{#if message.response}
-					<p><strong>Réponse:</strong> {message.response}</p>
-				{:else}
-					<p><em>En attente de la réponse...</em></p>
-				{/if}
-			</div> -->
 	{/if}
 </div>
