@@ -11,7 +11,7 @@
 	<meta name="description" content="Mistral Chatbot demo" />
 </svelte:head>
 
-<div class="bg-[#181412] w-screen h-screen flex flex-row">
+<div class="overflow-hidden bg-[#181412] w-screen h-screen flex flex-row">
 	{#if $isSidebarOpen && (Device.isPhone || Device.isTablet)}
 		<!-- this is a black filter and will only appear if it is a real phone or tablet, not if the width change -->
 		<button
