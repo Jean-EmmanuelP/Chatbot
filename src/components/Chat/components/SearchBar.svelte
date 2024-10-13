@@ -5,14 +5,15 @@
 
 	let model = 'Large 2';
 	let query = '';
+
 	function adjustTextareaHeight(event: Event) {
 		const textarea = event.target as HTMLTextAreaElement;
 		textarea.style.height = 'auto';
 		const height = Math.min(textarea.scrollHeight, 400);
 		textarea.style.height = `${height}px`;
 	}
-	function sendMessage() {
-		console.log('this is the current query: ', query);
+
+	async function sendMessage() {
 		if (query.trim() === '') return;
 
 		const newMessage: ChatMessage = {
@@ -30,18 +31,42 @@
 			textarea.style.height = 'auto';
 		}
 
-		setTimeout(() => {
-			const fakeResponse = 'Ceci est une réponse simulée.';
+		try {
+			const response = await fetch('http://localhost:5000/chat', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({ message: newMessage.question })
+			});
+
+			if (!response.ok) {
+				throw new Error(`HTTP error! status: ${response.status}`);
+			}
+
+			const data = await response.json();
+			const assistantReply = data.reply;
 
 			chatStore.update((messages) => {
 				return messages.map((msg) => {
 					if (msg.id === newMessage.id) {
-						return { ...msg, response: fakeResponse };
+						return { ...msg, response: assistantReply };
 					}
 					return msg;
 				});
 			});
-		}, 1000);
+		} catch (error) {
+			console.error('Error fetching the assistant reply:', error);
+
+			chatStore.update((messages) => {
+				return messages.map((msg) => {
+					if (msg.id === newMessage.id) {
+						return { ...msg, response: 'Sorry, an error occurred while fetching the response.' };
+					}
+					return msg;
+				});
+			});
+		}
 	}
 </script>
 

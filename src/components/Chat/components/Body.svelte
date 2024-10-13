@@ -23,7 +23,7 @@
 			alt="mistral logo"
 		/>
 	{:else}
-		<div class="flex flex-col gap-4 mx-auto sm:w-[58%] w-[90%] mt-[12%]">
+		<div class="flex flex-col gap-4 mx-auto sm:px-[17.5vw] sm:w-full w-[90%] mt-[7%] max-h-[78vh] overflow-y-auto">
 			{#each messages as message}
 				<ChatDisplay {message} />
 			{/each}

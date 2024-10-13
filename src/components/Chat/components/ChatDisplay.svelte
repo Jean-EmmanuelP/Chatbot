@@ -21,7 +21,7 @@
 		>
 			M
 		</h1>
-		<p class="leading-relaxed max-w-[70%] break-words -translate-y-1">
+		<p class="leading-relaxed max-w-[100%] break-words -translate-y-1">
 			{#if message.response}
 				{message.response}
 			{:else}
