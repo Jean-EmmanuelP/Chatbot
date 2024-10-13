@@ -7,11 +7,9 @@
 	let messages: ChatMessage[] = [];
 
 	const unsubscribe = chatStore.subscribe((value) => {
-		console.log('value:', value);
 		messages = value;
 	});
 
-	$: console.log('those are the messages: ', messages);
 	onDestroy(() => {
 		unsubscribe();
 	});
@@ -25,7 +23,7 @@
 			alt="mistral logo"
 		/>
 	{:else}
-		<div class="flex flex-col mx-auto sm:w-[55%] w-[90%] mt-[12%]">
+		<div class="flex flex-col gap-4 mx-auto sm:w-[58%] w-[90%] mt-[12%]">
 			{#each messages as message}
 				<ChatDisplay {message} />
 			{/each}
