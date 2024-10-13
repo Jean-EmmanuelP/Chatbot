@@ -1,4 +1,6 @@
 <script>
+	import Chat from './../components/Chat.svelte';
+	import LeftSidebar from '../components/LeftSidebar/LeftSidebar.svelte';
 </script>
 
 <svelte:head>
@@ -6,8 +8,7 @@
 	<meta name="description" content="Mistral Chatbot demo" />
 </svelte:head>
 
-<section>
-	<h1 class="text-black">
-		Hello world
-	</h1>
-</section>
+<div class="bg-[#181412] w-screen h-screen flex flex-row">
+	<LeftSidebar />
+	<Chat />
+</div>
