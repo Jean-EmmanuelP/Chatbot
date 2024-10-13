@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { type ChatMessage } from './../../../utils/types/chat';
+	import { chatStore } from './../../../utils/stores/chat';
 	import Send from '$lib/svg/Send.svelte';
 
 	let model = 'Large 2';
@@ -8,6 +10,34 @@
 		textarea.style.height = 'auto';
 		const height = Math.min(textarea.scrollHeight, 400);
 		textarea.style.height = `${height}px`;
+	}
+	function sendMessage() {
+		console.log('this is the current query: ', query);
+		if (query.trim() === '') return;
+
+		const newMessage: ChatMessage = {
+			id: Date.now(),
+			channel: model,
+			question: query,
+			response: ''
+		};
+
+		chatStore.update((messages) => [...messages, newMessage]);
+
+		query = '';
+
+		setTimeout(() => {
+			const fakeResponse = 'Ceci est une réponse simulée.';
+
+				chatStore.update((messages) => {
+					return messages.map((msg) => {
+						if (msg.id === newMessage.id) {
+							return { ...msg, response: fakeResponse };
+						}
+						return msg;
+					});
+				});
+		}, 1000);
 	}
 </script>
 
@@ -31,7 +61,8 @@
 		/>
 
 		<button
-			class="bg-orange-500/20 p-2 rounded-xl sm:translate-y-0 translate-y-6 sm:translate-x-0 translate-x-2.5"
+			class="hover:bg-orange-500/40 bg-orange-500/20 p-2 rounded-xl sm:translate-y-0 translate-y-6 sm:translate-x-0 translate-x-2.5"
+			on:click={sendMessage}
 		>
 			<div>
 				<Send height={'20px'} width={'20px'} color={'#D35400' + '66'} />

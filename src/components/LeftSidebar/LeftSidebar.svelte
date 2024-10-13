@@ -2,7 +2,7 @@
 	import Footer from './components/Footer.svelte';
 	import Header from './components/Header.svelte';
 	import Body from './components/Body.svelte';
-	import { isSidebarOpen } from '../../stores/sidebar';
+	import { isSidebarOpen } from '../../utils/stores/sidebar';
 </script>
 
 <div

@@ -1,8 +1,9 @@
 <script>
 	import Arrow from './../../lib/svg/Arrow.svelte';
 	import SearchBar from './components/SearchBar.svelte';
-	import { toggleSidebar } from '../../functions/toggleSideBar';
-	import { isSidebarOpen } from './../../stores/sidebar';
+	import { toggleSidebar } from '../../utils/functions/toggleSideBar';
+	import { isSidebarOpen } from '../../utils/stores/sidebar.ts';
+	// here add the chat with the question and and answer
 </script>
 
 <div class="relative h-full w-full">
@@ -17,5 +18,6 @@
 		src="/Users/jperrama/Code/Chatbot/src/lib/images/mistral_logo.webp"
 		alt="mistral logo"
 	/>
+	<!-- take the question from here -->
 	<SearchBar />
 </div>

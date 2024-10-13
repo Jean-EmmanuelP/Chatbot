@@ -1,8 +1,8 @@
 <script>
 	import Chat from '../components/Chat/Chat.svelte';
 	import LeftSidebar from '../components/LeftSidebar/LeftSidebar.svelte';
-	import { toggleSidebar } from '../functions/toggleSideBar';
-	import { isSidebarOpen } from '../stores/sidebar';
+	import { toggleSidebar } from '../utils/functions/toggleSideBar';
+	import { isSidebarOpen } from '../utils/stores/sidebar';
 	import Device from 'svelte-device-info';
 </script>
 
