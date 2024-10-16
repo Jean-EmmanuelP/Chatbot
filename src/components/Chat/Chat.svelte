@@ -17,7 +17,7 @@
 	</button>
 	{#if $selectedChatStore && $selectedChatStore.name !== ''}
 		<button
-			class={`absolute top-[17px] left-14 z-20 transition-all duration-150 h-[18px] w-[18px] flex items-center justify-center rounded-full border border-orange-600 ${$isSidebarOpen ? 'rotate-180 sm:translate-x-0 translate-x-[200px]' : ''}`}
+			class={`absolute top-[17px] sm:left-14 left-20 z-20 transition-all duration-150 h-[18px] w-[18px] flex items-center justify-center rounded-full border border-orange-600 ${$isSidebarOpen ? 'rotate-180 sm:translate-x-0 translate-x-[200px]' : ''}`}
 			on:click={addNewChat}
 		>
 			<div

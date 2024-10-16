@@ -30,7 +30,7 @@
 			question: query,
 			response: '',
 			loading: true,
-			is_displayed: false,
+			is_displayed: false
 		};
 
 		let currentChat = selectedChat;
@@ -129,7 +129,7 @@
 </script>
 
 <div
-	class="absolute overflow-hidden bottom-10 left-1/2 -translate-x-1/2 w-[90%] sm:w-[55%] sm:min-h-[60px] min-h-[100px] border border-[#342F2E] rounded-xl"
+	class="absolute overflow-hidden bottom-10 left-1/2 -translate-x-1/2 w-[90%] sm:w-[55%] sm:min-h-[60px] min-h-[100px] border border-[#342F2E] bg-[#181412] rounded-xl"
 >
 	<div class="relative flex items-center w-full min-h-[60px] bg-[#181412] text-white px-4">
 		<select bind:value={model} class="bg-transparent text-[#A8A29D]">

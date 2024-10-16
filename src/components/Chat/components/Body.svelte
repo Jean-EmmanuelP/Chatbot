@@ -21,7 +21,7 @@
 		/>
 	{:else}
 		<div
-			class="flex flex-col gap-4 mx-auto sm:w-[55%] w-[90%] mt-[7%] max-h-[78vh] overflow-y-auto"
+			class="flex flex-col gap-4 mx-auto w-full sm:pl-[21%] sm:pr-[22%] pl-[1%] pr-[8%] sm:mt-[7%] mt-[15%] h-[78vh] overflow-y-auto"
 		>
 			{#each messages as message (message.id)}
 				<ChatDisplay {message} />
