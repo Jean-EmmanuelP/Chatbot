@@ -1,6 +1,7 @@
+<!-- components/SearchBar.svelte -->
 <script lang="ts">
-	import { type ChatMessage } from './../../../utils/types/chat';
-	import { chatStore } from './../../../utils/stores/chat';
+	import { type ChatMessage, type Chat } from './../../../utils/types/chat';
+	import { chatStore, selectedChatStore } from './../../../utils/stores/chat';
 	import Send from '$lib/svg/Send.svelte';
 	import { Mistral } from '@mistralai/mistralai';
 	import { PUBLIC_MISTRAL_API_KEY } from '$env/static/public';
@@ -10,6 +11,9 @@
 
 	let model = 'Large 2';
 	let query = '';
+
+	$: selectedChat = $selectedChatStore;
+	$: chats = $chatStore;
 
 	function adjustTextareaHeight(event: Event) {
 		const textarea = event.target as HTMLTextAreaElement;
@@ -23,13 +27,45 @@
 
 		const newMessage: ChatMessage = {
 			id: Date.now(),
-			channel: model,
 			question: query,
 			response: '',
-			loading: true
+			loading: true,
+			displayed: false
 		};
 
-		chatStore.update((messages) => [...messages, newMessage]);
+		let currentChat = selectedChat;
+
+		if (chats.length === 0) {
+			const newChat: Chat = {
+				id: Date.now(),
+				name: query.trim().substring(0, 15),
+				messages: []
+			};
+			chatStore.update((chats) => [...chats, newChat]);
+			selectedChatStore.set(newChat);
+			currentChat = newChat;
+		} else if (!selectedChat) {
+			selectedChatStore.set(chats[0]);
+			currentChat = chats[0];
+		} else {
+			currentChat = selectedChat;
+		}
+
+		chatStore.update((chats) => {
+			const updatedChats = chats.map((chat) => {
+				if (chat.id === currentChat.id) {
+					const updatedName = chat.name === '' ? query.trim().substring(0, 10) : chat.name;
+					return {
+						...chat,
+						name: updatedName,
+						messages: [...chat.messages, newMessage]
+					};
+				}
+				return chat;
+			});
+			console.log('Updated chatStore after adding message:', updatedChats);
+			return updatedChats;
+		});
 
 		query = '';
 		const textarea = document.querySelector('textarea');
@@ -45,30 +81,53 @@
 
 			const assistantReply = chatResponse.choices[0].message.content;
 
-			chatStore.update((messages) => {
-				return messages.map((msg) => {
-					if (msg.id === newMessage.id) {
-						return { ...msg, response: assistantReply, loading: false };
+			chatStore.update((chats) => {
+				const updatedChats = chats.map((chat) => {
+					if (chat.id === currentChat.id) {
+						return {
+							...chat,
+							messages: chat.messages.map((msg) => {
+								if (msg.id === newMessage.id) {
+									return { ...msg, response: assistantReply || '', loading: false };
+								}
+								return msg;
+							})
+						};
 					}
-					return msg;
+					return chat;
 				});
+				console.log('Updated chatStore after receiving assistant reply:', updatedChats);
+				return updatedChats;
 			});
 		} catch (error) {
 			console.error('Error fetching the assistant reply:', error);
 
-			chatStore.update((messages) => {
-				return messages.map((msg) => {
-					if (msg.id === newMessage.id) {
-						return { ...msg, response: 'Sorry, an error occurred while fetching the response.' };
+			chatStore.update((chats) => {
+				const updatedChats = chats.map((chat) => {
+					if (chat.id === currentChat.id) {
+						return {
+							...chat,
+							messages: chat.messages.map((msg) => {
+								if (msg.id === newMessage.id) {
+									return {
+										...msg,
+										response: 'Sorry, an error occurred while fetching the response.',
+										loading: false
+									};
+								}
+								return msg;
+							})
+						};
 					}
-					return msg;
+					return chat;
 				});
+				console.log('Updated chatStore after error:', updatedChats);
+				return updatedChats;
 			});
 		}
 	}
 </script>
 
-<!-- I could have done better the responsiveness, not the same on phone -->
 <div
 	class="absolute overflow-hidden bottom-10 left-1/2 -translate-x-1/2 w-[90%] sm:w-[55%] sm:min-h-[60px] min-h-[100px] border border-[#342F2E] rounded-xl"
 >
@@ -92,7 +151,6 @@
 				}
 			}}
 		/>
-
 		<button
 			class="hover:bg-orange-500/40 bg-orange-500/20 p-2 rounded-xl sm:translate-y-0 translate-y-6 sm:translate-x-0 translate-x-2.5"
 			on:click={sendMessage}
@@ -102,9 +160,7 @@
 			</div>
 		</button>
 	</div>
-
-	<!-- Warning for possible inaccuracies -->
 	<p class="absolute sm:block hidden -bottom-7 text-[12px] right-0 text-[#A8A29D]">
-		Responses may contain inaccuracies.
+		Les réponses peuvent contenir des inexactitudes.
 	</p>
 </div>

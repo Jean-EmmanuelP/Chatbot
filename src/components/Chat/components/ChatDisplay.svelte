@@ -1,3 +1,4 @@
+<!-- components/ChatDisplay.svelte -->
 <script lang="ts">
 	import LoadingText from './LoadingText.svelte';
 	import type { ChatMessage } from '../../../utils/types/chat';
@@ -7,13 +8,14 @@
 	let displayedResponse = '';
 	let currentIndex = 0;
 
-	$: if (message.response) {
+	$: if (message.response && currentIndex === 0 && !message.displayed) {
 		const interval = setInterval(() => {
 			if (currentIndex < message.response.length) {
 				displayedResponse += message.response[currentIndex];
 				currentIndex++;
 			} else {
 				clearInterval(interval);
+				message = { ...message, displayed: true };
 			}
 		}, 10);
 	}
@@ -37,7 +39,7 @@
 			M
 		</h1>
 		<p class="leading-relaxed max-w-[100%] break-words -translate-y-1">
-			{#if message.response}
+			{#if !message.loading}
 				{#each displayedResponse.split('') as letter, i}
 					<span class="fade-in" style="animation-delay: {i * 0.01}s">{letter}</span>
 				{/each}
