@@ -2,8 +2,8 @@ export type ChatMessage = {
 	id: number;
 	question: string;
 	response: string;
-	loading: true;
-	displayed: boolean;
+	loading: boolean;
+	is_displayed: boolean;
 };
 
 export type Chat = {

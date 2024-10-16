@@ -30,7 +30,7 @@
 			question: query,
 			response: '',
 			loading: true,
-			displayed: false
+			is_displayed: false,
 		};
 
 		let currentChat = selectedChat;

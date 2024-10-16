@@ -1,4 +1,3 @@
-<!-- components/ChatDisplay.svelte -->
 <script lang="ts">
 	import LoadingText from './LoadingText.svelte';
 	import type { ChatMessage } from '../../../utils/types/chat';
@@ -8,16 +7,24 @@
 	let displayedResponse = '';
 	let currentIndex = 0;
 
-	$: if (message.response && currentIndex === 0 && !message.displayed) {
+	$: if (message.response && currentIndex === 0 && !message.is_displayed) {
 		const interval = setInterval(() => {
 			if (currentIndex < message.response.length) {
 				displayedResponse += message.response[currentIndex];
 				currentIndex++;
 			} else {
 				clearInterval(interval);
-				message = { ...message, displayed: true };
+				const fadeInDuration = 500;
+				const perLetterDelay = 10;
+				const totalDelay = fadeInDuration + (message.response.length - 1) * perLetterDelay;
+
+				setTimeout(() => {
+					message.is_displayed = true;
+				}, totalDelay);
 			}
-		}, 10);
+		}, 5);
+	} else if (message.is_displayed) {
+		displayedResponse = message.response;
 	}
 </script>
 
@@ -40,9 +47,13 @@
 		</h1>
 		<p class="leading-relaxed max-w-[100%] break-words -translate-y-1">
 			{#if !message.loading}
-				{#each displayedResponse.split('') as letter, i}
-					<span class="fade-in" style="animation-delay: {i * 0.01}s">{letter}</span>
-				{/each}
+				{#if message.is_displayed}
+					{message.response}
+				{:else}
+					{#each displayedResponse.split('') as letter, i}
+						<span class="fade-in" style="animation-delay: {i * 0.01}s">{letter}</span>
+					{/each}
+				{/if}
 			{:else}
 				<LoadingText />
 			{/if}
