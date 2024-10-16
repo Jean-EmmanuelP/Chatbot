@@ -3,4 +3,5 @@ export type ChatMessage = {
     channel: string;
     question: string;
     response: string;
+    loading: true;
 }

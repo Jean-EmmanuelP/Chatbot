@@ -2,6 +2,11 @@
 	import { type ChatMessage } from './../../../utils/types/chat';
 	import { chatStore } from './../../../utils/stores/chat';
 	import Send from '$lib/svg/Send.svelte';
+	import { Mistral } from '@mistralai/mistralai';
+	import { PUBLIC_MISTRAL_API_KEY } from '$env/static/public';
+
+	const apiKey = PUBLIC_MISTRAL_API_KEY || 'your_api_key';
+	const client = new Mistral({ apiKey: apiKey });
 
 	let model = 'Large 2';
 	let query = '';
@@ -20,7 +25,8 @@
 			id: Date.now(),
 			channel: model,
 			question: query,
-			response: ''
+			response: '',
+			loading: true
 		};
 
 		chatStore.update((messages) => [...messages, newMessage]);
@@ -32,25 +38,17 @@
 		}
 
 		try {
-			const response = await fetch('http://localhost:5000/chat', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify({ message: newMessage.question })
+			const chatResponse = await client.chat.complete({
+				model: 'mistral-tiny',
+				messages: [{ role: 'user', content: newMessage.question }]
 			});
 
-			if (!response.ok) {
-				throw new Error(`HTTP error! status: ${response.status}`);
-			}
-
-			const data = await response.json();
-			const assistantReply = data.reply;
+			const assistantReply = chatResponse.choices[0].message.content;
 
 			chatStore.update((messages) => {
 				return messages.map((msg) => {
 					if (msg.id === newMessage.id) {
-						return { ...msg, response: assistantReply };
+						return { ...msg, response: assistantReply, loading: false };
 					}
 					return msg;
 				});
