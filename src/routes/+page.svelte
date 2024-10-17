@@ -3,7 +3,16 @@
 	import LeftSidebar from '../components/LeftSidebar/LeftSidebar.svelte';
 	import { toggleSidebar } from '../utils/functions/toggleSideBar';
 	import { isSidebarOpen } from '../utils/stores/sidebar';
-	import Device from 'svelte-device-info';
+
+	let isMobileOrTablet = false;
+
+	function checkScreenWidth() {
+		isMobileOrTablet = window.innerWidth <= 768;
+	}
+
+	checkScreenWidth();
+
+	window.addEventListener('resize', checkScreenWidth);
 </script>
 
 <svelte:head>
@@ -12,8 +21,7 @@
 </svelte:head>
 
 <div class="overflow-hidden bg-[#181412] w-screen h-screen flex flex-row">
-	{#if $isSidebarOpen && (Device.isPhone || Device.isTablet)}
-		<!-- this is a black filter and will only appear if it is a real phone or tablet, not if the width change -->
+	{#if $isSidebarOpen && isMobileOrTablet}
 		<button
 			on:click={() => {
 				if ($isSidebarOpen) {
