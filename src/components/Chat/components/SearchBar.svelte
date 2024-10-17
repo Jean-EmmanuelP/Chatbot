@@ -25,6 +25,15 @@
 	async function sendMessage() {
 		if (query.trim() === '') return;
 
+		let selectedModel: string = 'mistral-large-latest';
+		if (model === 'Large 2') {
+			selectedModel = 'mistral-large-latest';
+		} else if (model === 'Medium') {
+			selectedModel = 'mistral-medium-latest';
+		} else if (model === 'Small') {
+			selectedModel = 'mistral-tiny';
+		}
+
 		const newMessage: ChatMessage = {
 			id: Date.now(),
 			question: query,
@@ -63,7 +72,6 @@
 				}
 				return chat;
 			});
-			console.log('Updated chatStore after adding message:', updatedChats);
 			return updatedChats;
 		});
 
@@ -75,10 +83,9 @@
 
 		try {
 			const chatResponse = await client.chat.complete({
-				model: 'mistral-tiny',
+				model: selectedModel,
 				messages: [{ role: 'user', content: newMessage.question }]
 			});
-
 			const assistantReply = chatResponse.choices[0].message.content;
 
 			chatStore.update((chats) => {
@@ -96,7 +103,6 @@
 					}
 					return chat;
 				});
-				console.log('Updated chatStore after receiving assistant reply:', updatedChats);
 				return updatedChats;
 			});
 		} catch (error) {
@@ -121,7 +127,6 @@
 					}
 					return chat;
 				});
-				console.log('Updated chatStore after error:', updatedChats);
 				return updatedChats;
 			});
 		}
