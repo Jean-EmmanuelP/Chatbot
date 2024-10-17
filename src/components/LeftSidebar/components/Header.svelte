@@ -8,7 +8,7 @@
 >
 	<enhanced:img
 		class="w-[40%]"
-		src="/Users/jperrama/Code/Chatbot/src/lib/images/mistral_logo.webp"
+		src="/src/lib/images/mistral_logo.webp"
 		alt="mistral logo"
 	/>
 </button>

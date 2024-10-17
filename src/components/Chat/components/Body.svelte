@@ -16,7 +16,7 @@
 	{#if messages.length === 0}
 		<enhanced:img
 			class="sm:w-[400px] w-[350px] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-			src="/Users/jperrama/Code/Chatbot/src/lib/images/mistral_logo.webp"
+			src="/src/lib/images/mistral_logo.webp"
 			alt="mistral logo"
 		/>
 	{:else}
