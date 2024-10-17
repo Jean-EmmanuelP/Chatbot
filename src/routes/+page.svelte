@@ -7,12 +7,15 @@
 	let isMobileOrTablet = false;
 
 	function checkScreenWidth() {
-		isMobileOrTablet = window.innerWidth <= 768;
+		if (typeof window !== 'undefined') {
+			isMobileOrTablet = window.innerWidth <= 768;
+		}
 	}
 
-	checkScreenWidth();
-
-	window.addEventListener('resize', checkScreenWidth);
+	if (typeof window !== 'undefined') {
+		checkScreenWidth();
+		window.addEventListener('resize', checkScreenWidth);
+	}
 </script>
 
 <svelte:head>
